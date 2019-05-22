@@ -13,10 +13,10 @@ namespace EU4MusicModGenerator {
 	using namespace System::Data;
 	using namespace System::Drawing;
 	using namespace System::IO;
-	using namespace std::filesystem;
-	namespace fs = std::filesystem;
+	using namespace System::IO::Compression;
+
 	/// <summary>
-	/// Summary for Form1
+	/// EU4 Music Mod Generator. Place in .ogg files and it will create mod files for you to place in the game's mod directory.
 	/// </summary>
 	public ref class Form1 : public System::Windows::Forms::Form
 	{
@@ -711,12 +711,19 @@ private: System::Void Button2_Click(System::Object^ sender, System::EventArgs^ e
 		}
 		sw->Close();
 		sw2->Close();
+		if (File::Exists(outputTextBox->Text + ".\\" + modName + ".zip")) {
+			File::Delete(outputTextBox->Text + ".\\" + modName + ".zip");
+		}
+		ZipFile::CreateFromDirectory(modDirectory, outputTextBox->Text+".\\"+ modName +".zip");
 		progressBarLoading->Increment(100);
 		if (System::Windows::Forms::MessageBox::Show("Mod Successfully Created!","EU4 Music Mod Generator", System::Windows::Forms::MessageBoxButtons::OK)
 			== System::Windows::Forms::DialogResult::OK) {
 			progressBarLoading->Value = 0;
 		}
 
+		sw = File::CreateText(outputTextBox->Text +"\\Installation Instructions\.txt");
+		sw->WriteLine("Place " + inputModName->Text + ".zip and " + inputModName->Text + "\.mod in Documents\\Paradox Interactive\\Europa Universalis IV\\mod");
+		sw->Close();
 	}
 }
 private: System::Void FolderPath_Click(System::Object^ sender, System::EventArgs^ e) {
