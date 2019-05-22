@@ -84,6 +84,8 @@ namespace EU4MusicModGenerator {
 	private: System::Windows::Forms::ColumnHeader^ ch_warModifier;
 	private: System::Windows::Forms::Label^ folderPath;
 	private: System::Windows::Forms::ProgressBar^ progressBarLoading;
+	private: System::Windows::Forms::ToolTip^ toolTip1;
+	private: System::ComponentModel::IContainer^ components;
 
 
 
@@ -97,7 +99,7 @@ namespace EU4MusicModGenerator {
 		/// <summary>
 		/// Required designer variable.
 		/// </summary>
-		System::ComponentModel::Container ^components;
+
 
 #pragma region Windows Form Designer generated code
 		/// <summary>
@@ -106,6 +108,7 @@ namespace EU4MusicModGenerator {
 		/// </summary>
 		void InitializeComponent(void)
 		{
+			this->components = (gcnew System::ComponentModel::Container());
 			this->button1 = (gcnew System::Windows::Forms::Button());
 			this->label1 = (gcnew System::Windows::Forms::Label());
 			this->listViewMusic = (gcnew System::Windows::Forms::ListView());
@@ -135,6 +138,7 @@ namespace EU4MusicModGenerator {
 			this->button3 = (gcnew System::Windows::Forms::Button());
 			this->folderPath = (gcnew System::Windows::Forms::Label());
 			this->progressBarLoading = (gcnew System::Windows::Forms::ProgressBar());
+			this->toolTip1 = (gcnew System::Windows::Forms::ToolTip(this->components));
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->generalModifierUpDown))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->peaceModifierUpDown))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->warModifierUpDown))->BeginInit();
@@ -166,6 +170,7 @@ namespace EU4MusicModGenerator {
 			// 
 			// listViewMusic
 			// 
+			this->listViewMusic->AllowDrop = true;
 			this->listViewMusic->Columns->AddRange(gcnew cli::array< System::Windows::Forms::ColumnHeader^  >(6) {
 				this->ch_name, this->ch_generalModifier,
 					this->ch_warOptions, this->ch_peaceModifier, this->ch_warModifier, this->ch_filePath
@@ -181,6 +186,8 @@ namespace EU4MusicModGenerator {
 			this->listViewMusic->UseCompatibleStateImageBehavior = false;
 			this->listViewMusic->View = System::Windows::Forms::View::Details;
 			this->listViewMusic->SelectedIndexChanged += gcnew System::EventHandler(this, &Form1::ListView1_SelectedIndexChanged);
+			this->listViewMusic->DragDrop += gcnew System::Windows::Forms::DragEventHandler(this, &Form1::ListViewMusic_DragDrop);
+			this->listViewMusic->DragEnter += gcnew System::Windows::Forms::DragEventHandler(this, &Form1::ListViewMusic_DragEnter);
 			// 
 			// ch_name
 			// 
@@ -263,6 +270,7 @@ namespace EU4MusicModGenerator {
 			this->generalLabel->Size = System::Drawing::Size(130, 20);
 			this->generalLabel->TabIndex = 8;
 			this->generalLabel->Text = L"General Modifier:";
+			this->toolTip1->SetToolTip(this->generalLabel, L"Default is 1.0");
 			this->generalLabel->Click += gcnew System::EventHandler(this, &Form1::Label3_Click);
 			// 
 			// peaceLabel
@@ -445,6 +453,10 @@ namespace EU4MusicModGenerator {
 			this->progressBarLoading->TabIndex = 24;
 			this->progressBarLoading->Click += gcnew System::EventHandler(this, &Form1::ProgressBarLoading_Click);
 			// 
+			// toolTip1
+			// 
+			this->toolTip1->AutomaticDelay = 250;
+			// 
 			// Form1
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
@@ -551,7 +563,6 @@ private: System::Void CheckBox1_CheckedChanged(System::Object^ sender, System::E
 }
 // General Label
 private: System::Void Label3_Click(System::Object^ sender, System::EventArgs^ e) {
-	// TODO: add mouseover label, default rate is 1.0
 }
 // Peace Label
 private: System::Void Label4_Click(System::Object^ sender, System::EventArgs^ e) {
@@ -604,7 +615,6 @@ private: System::Void TextBox3_TextChanged(System::Object^ sender, System::Event
 }
 // Load folder
 private: System::Void Button1_Click_1(System::Object^ sender, System::EventArgs^ e) {
-	// TODO: switch folderbrowser dialog to filebrowserdialogue????
 	FolderBrowserDialog^ fbd = gcnew FolderBrowserDialog();
 	if (fbd->ShowDialog() == System::Windows::Forms::DialogResult::OK) {
 		folderPath->Text = fbd->SelectedPath;
@@ -625,7 +635,6 @@ private: System::Void Button1_Click_1(System::Object^ sender, System::EventArgs^
 }
 // Select Output Folder
 private: System::Void Button3_Click(System::Object^ sender, System::EventArgs^ e) {
-	// TODO: switch folderbrowser dialog to filebrowserdialogue????
 	FolderBrowserDialog^ fbd = gcnew FolderBrowserDialog();
 	if (fbd->ShowDialog() == System::Windows::Forms::DialogResult::OK) {
 		outputTextBox->Text = fbd->SelectedPath;
@@ -712,6 +721,36 @@ private: System::Void FolderPath_Click(System::Object^ sender, System::EventArgs
 private: System::Void RichTextBox1_TextChanged(System::Object^ sender, System::EventArgs^ e) {
 }
 private: System::Void ProgressBarLoading_Click(System::Object^ sender, System::EventArgs^ e) {
+}
+private: System::Void ListViewMusic_DragEnter(System::Object^ sender, System::Windows::Forms::DragEventArgs^ e) {
+	e->Effect = System::Windows::Forms::DragDropEffects::All;
+}
+private: System::Void ListViewMusic_DragDrop(System::Object^ sender, System::Windows::Forms::DragEventArgs^ e) {
+	array<String^>^ files = (array<String^>^) e->Data->GetData(System::Windows::Forms::DataFormats::FileDrop, false);
+
+	for (int i = 0; i < files->Length; i++) {
+		if (Path::GetExtension(files[i])->Equals(".ogg")) {
+			ListViewItem^ lvEntry = gcnew ListViewItem(Path::GetFileNameWithoutExtension(files[i]), 0);
+			lvEntry->SubItems->Add("1.0");
+			lvEntry->SubItems->Add("no");
+			lvEntry->SubItems->Add("0");
+			lvEntry->SubItems->Add("0");
+			lvEntry->SubItems->Add(files[i]);
+			listViewMusic->Items->Add(lvEntry);
+		}
+		else if (Directory::Exists(files[i])) {
+			array<String^>^ newDirectory = (array<String^>^) Directory::GetFiles(files[i]);
+			for (int j = 0; j < newDirectory->Length; j++) {
+				ListViewItem^ lvEntry = gcnew ListViewItem(Path::GetFileNameWithoutExtension(newDirectory[j]), 0);
+				lvEntry->SubItems->Add("1.0");
+				lvEntry->SubItems->Add("no");
+				lvEntry->SubItems->Add("0");
+				lvEntry->SubItems->Add("0");
+				lvEntry->SubItems->Add(files[i]);
+				listViewMusic->Items->Add(lvEntry);
+			}
+		}
+	}
 }
 };
 }
