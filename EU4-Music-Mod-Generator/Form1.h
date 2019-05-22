@@ -486,30 +486,10 @@ namespace EU4MusicModGenerator {
 		}
 #pragma endregion
 private: System::Void Form1_Load(System::Object^ sender, System::EventArgs^ e) {
-	// Load Test for listview
-	// TODO: Remove tests later
+	// Default Options
 	inputModName->Text = "Custom Music Mod";
 	inputPlaylistName->Text = "CUST";
-	inputGameVersion->Text = "1.28.3";
-
-	/*
-	ListViewItem^ lvTest = gcnew ListViewItem("Rome", 0);
-	lvTest->SubItems->Add("1.2");
-	lvTest->SubItems->Add("No");
-	lvTest->SubItems->Add("1.2");
-	lvTest->SubItems->Add("1.2");
-	lvTest->SubItems->Add("C:/mods");
-
-	ListViewItem^ lvTest2 = gcnew ListViewItem("War Theme", 0);
-	lvTest2->SubItems->Add("0.5");
-	lvTest2->SubItems->Add("Yes");
-	lvTest2->SubItems->Add("0.5");
-	lvTest2->SubItems->Add("2.0");
-	lvTest2->SubItems->Add("C:/mods");
-	
-	listViewMusic->Items->Add(lvTest);
-	listViewMusic->Items->Add(lvTest2);
-	*/
+	inputGameVersion->Text = "1.28.*.*";
 }
 // Music Files Label
 private: System::Void Label1_Click(System::Object^ sender, System::EventArgs^ e) {
@@ -571,6 +551,7 @@ private: System::Void CheckBox1_CheckedChanged(System::Object^ sender, System::E
 }
 // General Label
 private: System::Void Label3_Click(System::Object^ sender, System::EventArgs^ e) {
+	// TODO: add mouseover label, default rate is 1.0
 }
 // Peace Label
 private: System::Void Label4_Click(System::Object^ sender, System::EventArgs^ e) {
@@ -623,6 +604,7 @@ private: System::Void TextBox3_TextChanged(System::Object^ sender, System::Event
 }
 // Load folder
 private: System::Void Button1_Click_1(System::Object^ sender, System::EventArgs^ e) {
+	// TODO: switch folderbrowser dialog to filebrowserdialogue????
 	FolderBrowserDialog^ fbd = gcnew FolderBrowserDialog();
 	if (fbd->ShowDialog() == System::Windows::Forms::DialogResult::OK) {
 		folderPath->Text = fbd->SelectedPath;
@@ -643,6 +625,7 @@ private: System::Void Button1_Click_1(System::Object^ sender, System::EventArgs^
 }
 // Select Output Folder
 private: System::Void Button3_Click(System::Object^ sender, System::EventArgs^ e) {
+	// TODO: switch folderbrowser dialog to filebrowserdialogue????
 	FolderBrowserDialog^ fbd = gcnew FolderBrowserDialog();
 	if (fbd->ShowDialog() == System::Windows::Forms::DialogResult::OK) {
 		outputTextBox->Text = fbd->SelectedPath;
