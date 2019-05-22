@@ -188,6 +188,7 @@ namespace EU4MusicModGenerator {
 			this->listViewMusic->SelectedIndexChanged += gcnew System::EventHandler(this, &Form1::ListView1_SelectedIndexChanged);
 			this->listViewMusic->DragDrop += gcnew System::Windows::Forms::DragEventHandler(this, &Form1::ListViewMusic_DragDrop);
 			this->listViewMusic->DragEnter += gcnew System::Windows::Forms::DragEventHandler(this, &Form1::ListViewMusic_DragEnter);
+			this->listViewMusic->KeyDown += gcnew System::Windows::Forms::KeyEventHandler(this, &Form1::ListViewMusic_KeyDown);
 			// 
 			// ch_name
 			// 
@@ -408,17 +409,18 @@ namespace EU4MusicModGenerator {
 			this->label9->AutoSize = true;
 			this->label9->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(0)));
-			this->label9->Location = System::Drawing::Point(515, 366);
+			this->label9->Location = System::Drawing::Point(517, 367);
 			this->label9->Name = L"label9";
 			this->label9->Size = System::Drawing::Size(162, 20);
 			this->label9->TabIndex = 20;
 			this->label9->Text = L"Mod Output Location:";
+			this->label9->Click += gcnew System::EventHandler(this, &Form1::Label9_Click);
 			// 
 			// outputTextBox
 			// 
+			this->outputTextBox->DetectUrls = false;
 			this->outputTextBox->Location = System::Drawing::Point(519, 390);
 			this->outputTextBox->Name = L"outputTextBox";
-			this->outputTextBox->ReadOnly = true;
 			this->outputTextBox->Size = System::Drawing::Size(240, 69);
 			this->outputTextBox->TabIndex = 21;
 			this->outputTextBox->Text = L"";
@@ -718,13 +720,17 @@ private: System::Void Button2_Click(System::Object^ sender, System::EventArgs^ e
 }
 private: System::Void FolderPath_Click(System::Object^ sender, System::EventArgs^ e) {
 }
+// Output Textbox
 private: System::Void RichTextBox1_TextChanged(System::Object^ sender, System::EventArgs^ e) {
 }
+// Progress Bar
 private: System::Void ProgressBarLoading_Click(System::Object^ sender, System::EventArgs^ e) {
 }
+// On Drag to list view, change cursor
 private: System::Void ListViewMusic_DragEnter(System::Object^ sender, System::Windows::Forms::DragEventArgs^ e) {
 	e->Effect = System::Windows::Forms::DragDropEffects::All;
 }
+// Drag and drop functionality on list view
 private: System::Void ListViewMusic_DragDrop(System::Object^ sender, System::Windows::Forms::DragEventArgs^ e) {
 	array<String^>^ files = (array<String^>^) e->Data->GetData(System::Windows::Forms::DataFormats::FileDrop, false);
 
@@ -741,16 +747,27 @@ private: System::Void ListViewMusic_DragDrop(System::Object^ sender, System::Win
 		else if (Directory::Exists(files[i])) {
 			array<String^>^ newDirectory = (array<String^>^) Directory::GetFiles(files[i]);
 			for (int j = 0; j < newDirectory->Length; j++) {
-				ListViewItem^ lvEntry = gcnew ListViewItem(Path::GetFileNameWithoutExtension(newDirectory[j]), 0);
-				lvEntry->SubItems->Add("1.0");
-				lvEntry->SubItems->Add("no");
-				lvEntry->SubItems->Add("0");
-				lvEntry->SubItems->Add("0");
-				lvEntry->SubItems->Add(files[i]);
-				listViewMusic->Items->Add(lvEntry);
+				if (Path::GetExtension(newDirectory[j])->Equals(".ogg")) {
+					ListViewItem^ lvEntry = gcnew ListViewItem(Path::GetFileNameWithoutExtension(newDirectory[j]), 0);
+					lvEntry->SubItems->Add("1.0");
+					lvEntry->SubItems->Add("no");
+					lvEntry->SubItems->Add("0");
+					lvEntry->SubItems->Add("0");
+					lvEntry->SubItems->Add(newDirectory[j]);
+					listViewMusic->Items->Add(lvEntry);
+				}
 			}
 		}
 	}
+}
+// Delete selected entry in list view
+private: System::Void ListViewMusic_KeyDown(System::Object^ sender, System::Windows::Forms::KeyEventArgs^ e) {
+	if (listViewMusic->SelectedItems->Count > 0 && e->KeyCode == Keys::Delete) {
+		listViewMusic->Items->RemoveAt(listViewMusic->SelectedIndices[0]);
+	}
+}
+// Mod Output Location Label
+private: System::Void Label9_Click(System::Object^ sender, System::EventArgs^ e) {
 }
 };
 }
