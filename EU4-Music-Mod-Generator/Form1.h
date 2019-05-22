@@ -178,6 +178,7 @@ namespace EU4MusicModGenerator {
 			this->listViewMusic->FullRowSelect = true;
 			this->listViewMusic->GridLines = true;
 			this->listViewMusic->HideSelection = false;
+			this->listViewMusic->LabelEdit = true;
 			this->listViewMusic->Location = System::Drawing::Point(12, 59);
 			this->listViewMusic->MultiSelect = false;
 			this->listViewMusic->Name = L"listViewMusic";
