@@ -1,6 +1,6 @@
 ﻿  Form1.cpp
-C:\Users\Jonathan\Desktop\Coding Projects\EU4-Music-Mod-Generator\EU4-Music-Mod-Generator\Form1.h(668,51): warning C4129:  '.': unrecognized character escape sequence
-C:\Users\Jonathan\Desktop\Coding Projects\EU4-Music-Mod-Generator\EU4-Music-Mod-Generator\Form1.h(669,66): warning C4129:  '.': unrecognized character escape sequence
+C:\Users\Jonathan\Desktop\Coding Projects\EU4-Music-Mod-Generator\EU4-Music-Mod-Generator\Form1.h(678,51): warning C4129:  '.': unrecognized character escape sequence
+C:\Users\Jonathan\Desktop\Coding Projects\EU4-Music-Mod-Generator\EU4-Music-Mod-Generator\Form1.h(679,66): warning C4129:  '.': unrecognized character escape sequence
 C:\Users\Jonathan\Desktop\Coding Projects\EU4-Music-Mod-Generator\EU4-Music-Mod-Generator\Form1.cpp(8,1): warning C4829:  Possibly incorrect parameters to function main. Consider 'int main(Platform::Array<Platform::String^>^ argv)'
   Form1.obj : MSIL module encountered; incremental linking is disabled for MSIL; performing full link
   EU4-Music-Mod-Generator.vcxproj -> C:\Users\Jonathan\Desktop\Coding Projects\EU4-Music-Mod-Generator\Debug\EU4-Music-Mod-Generator.exe

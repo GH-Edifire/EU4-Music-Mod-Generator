@@ -83,6 +83,7 @@ namespace EU4MusicModGenerator {
 	private: System::Windows::Forms::ColumnHeader^ ch_peaceModifier;
 	private: System::Windows::Forms::ColumnHeader^ ch_warModifier;
 	private: System::Windows::Forms::Label^ folderPath;
+	private: System::Windows::Forms::ProgressBar^ progressBarLoading;
 
 
 
@@ -133,6 +134,7 @@ namespace EU4MusicModGenerator {
 			this->outputTextBox = (gcnew System::Windows::Forms::RichTextBox());
 			this->button3 = (gcnew System::Windows::Forms::Button());
 			this->folderPath = (gcnew System::Windows::Forms::Label());
+			this->progressBarLoading = (gcnew System::Windows::Forms::ProgressBar());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->generalModifierUpDown))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->peaceModifierUpDown))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->warModifierUpDown))->BeginInit();
@@ -431,16 +433,24 @@ namespace EU4MusicModGenerator {
 			this->folderPath->AutoSize = true;
 			this->folderPath->Location = System::Drawing::Point(12, 536);
 			this->folderPath->Name = L"folderPath";
-			this->folderPath->Size = System::Drawing::Size(24, 13);
+			this->folderPath->Size = System::Drawing::Size(0, 13);
 			this->folderPath->TabIndex = 23;
-			this->folderPath->Text = L"test";
 			this->folderPath->Click += gcnew System::EventHandler(this, &Form1::FolderPath_Click);
+			// 
+			// progressBarLoading
+			// 
+			this->progressBarLoading->Location = System::Drawing::Point(521, 526);
+			this->progressBarLoading->Name = L"progressBarLoading";
+			this->progressBarLoading->Size = System::Drawing::Size(237, 23);
+			this->progressBarLoading->TabIndex = 24;
+			this->progressBarLoading->Click += gcnew System::EventHandler(this, &Form1::ProgressBarLoading_Click);
 			// 
 			// Form1
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->ClientSize = System::Drawing::Size(784, 561);
+			this->Controls->Add(this->progressBarLoading);
 			this->Controls->Add(this->folderPath);
 			this->Controls->Add(this->button3);
 			this->Controls->Add(this->outputTextBox);
@@ -702,14 +712,23 @@ private: System::Void Button2_Click(System::Object^ sender, System::EventArgs^ e
 			sw2->WriteLine("\tname = \"" + listViewMusic->Items[i]->SubItems[0]->Text + "\"");
 			sw2->WriteLine("\tfile = \"" + listViewMusic->Items[i]->SubItems[0]->Text + ".ogg\"");
 			sw2->WriteLine("}");
+			progressBarLoading->Increment(1 / musicCount);
 		}
 		sw->Close();
 		sw2->Close();
+		progressBarLoading->Increment(100);
+		if (System::Windows::Forms::MessageBox::Show("Mod Successfully Created!","EU4 Music Mod Generator", System::Windows::Forms::MessageBoxButtons::OK)
+			== System::Windows::Forms::DialogResult::OK) {
+			progressBarLoading->Value = 0;
+		}
+
 	}
 }
 private: System::Void FolderPath_Click(System::Object^ sender, System::EventArgs^ e) {
 }
 private: System::Void RichTextBox1_TextChanged(System::Object^ sender, System::EventArgs^ e) {
+}
+private: System::Void ProgressBarLoading_Click(System::Object^ sender, System::EventArgs^ e) {
 }
 };
 }
