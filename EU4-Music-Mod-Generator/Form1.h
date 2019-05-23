@@ -677,7 +677,7 @@ private: System::Void Button2_Click(System::Object^ sender, System::EventArgs^ e
 			File::Copy(listViewMusic->Items[i]->SubItems[5]->Text, modMusic+"\\"+ listViewMusic->Items[i]->SubItems[0]->Text+".ogg",true);
 			if (listViewMusic->Items[i]->SubItems[2]->Text->Equals("yes")) {
 				sw->WriteLine("song = {");
-				sw->WriteLine("\tname = "+ listViewMusic->Items[i]->SubItems[0]->Text+"\"");
+				sw->WriteLine("\tname = \""+ listViewMusic->Items[i]->SubItems[0]->Text+"\"");
 				sw->WriteLine("\tchance = {");
 				sw->WriteLine("\t\tmodifier = {");
 				sw->WriteLine("\t\t\tfactor = " + listViewMusic->Items[i]->SubItems[3]->Text);
@@ -694,7 +694,7 @@ private: System::Void Button2_Click(System::Object^ sender, System::EventArgs^ e
 			else
 			{
 				sw->WriteLine("song = {");
-				sw->WriteLine("\tname = " + listViewMusic->Items[i]->SubItems[0]->Text + "\"");
+				sw->WriteLine("\tname = \"" + listViewMusic->Items[i]->SubItems[0]->Text + "\"");
 				sw->WriteLine("\tchance = {");
 				sw->WriteLine("\t\tmodifier = {");
 				sw->WriteLine("\t\t\tfactor = " + listViewMusic->Items[i]->SubItems[1]->Text);
