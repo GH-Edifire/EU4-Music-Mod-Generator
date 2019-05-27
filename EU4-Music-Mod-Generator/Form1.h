@@ -645,7 +645,15 @@ private: System::Void Button3_Click(System::Object^ sender, System::EventArgs^ e
 }
 // Create Mod
 private: System::Void Button2_Click(System::Object^ sender, System::EventArgs^ e) {
-	if (outputTextBox->TextLength > 0) {
+	if (listViewMusic->Items->Count == 0) {
+		System::Windows::Forms::MessageBox::Show("Error: No audio files inputted.", "EU4 Music Mod Generator", System::Windows::Forms::MessageBoxButtons::OK);
+		return;
+	}
+	else if (outputTextBox->TextLength <= 0) {
+		System::Windows::Forms::MessageBox::Show("Error: No output directory.", "EU4 Music Mod Generator", System::Windows::Forms::MessageBoxButtons::OK);
+		return;
+	}
+	else if (outputTextBox->TextLength > 0) {
 
 		String^ modName = "\\" + inputModName->Text;
 		String^ playlistName = "\\" + inputPlaylistName->Text;
