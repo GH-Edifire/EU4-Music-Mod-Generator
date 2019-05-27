@@ -180,7 +180,6 @@ namespace EU4MusicModGenerator {
 			this->listViewMusic->HideSelection = false;
 			this->listViewMusic->LabelEdit = true;
 			this->listViewMusic->Location = System::Drawing::Point(12, 59);
-			this->listViewMusic->MultiSelect = false;
 			this->listViewMusic->Name = L"listViewMusic";
 			this->listViewMusic->Size = System::Drawing::Size(473, 400);
 			this->listViewMusic->TabIndex = 4;
@@ -542,7 +541,7 @@ private: System::Void Label2_Click(System::Object^ sender, System::EventArgs^ e)
 private: System::Void CheckBox1_CheckedChanged(System::Object^ sender, System::EventArgs^ e) {
 	if (listViewMusic->SelectedItems->Count > 0) {
 		if (warOptionsCheck->Checked) {
-			listViewMusic->SelectedItems[0]->SubItems[2]->Text = "yes";
+			//listViewMusic->SelectedItems[0]->SubItems[2]->Text = "yes";
 			generalModifierUpDown->Enabled = false;
 			generalLabel->Enabled = false;
 			peaceModifierUpDown->Enabled = true;
@@ -552,7 +551,7 @@ private: System::Void CheckBox1_CheckedChanged(System::Object^ sender, System::E
 			generalModifierUpDown->Value = 0;
 		}
 		else {
-			listViewMusic->SelectedItems[0]->SubItems[2]->Text = "no";
+			//listViewMusic->SelectedItems[0]->SubItems[2]->Text = "no";
 			generalModifierUpDown->Enabled = true;
 			generalLabel->Enabled = true;
 			peaceModifierUpDown->Enabled = false;
@@ -561,6 +560,14 @@ private: System::Void CheckBox1_CheckedChanged(System::Object^ sender, System::E
 			warLabel->Enabled = false;
 			peaceModifierUpDown->Value = 0;
 			warModifierUpDown->Value = 0;
+		}
+		for (int i = 0; i < listViewMusic->SelectedItems->Count; i++) {
+			if (warOptionsCheck->Checked) {
+				listViewMusic->SelectedItems[i]->SubItems[2]->Text = "yes";
+			}
+			else {
+				listViewMusic->SelectedItems[i]->SubItems[2]->Text = "no";
+			}
 		}
 	}
 }
@@ -575,33 +582,39 @@ private: System::Void Label5_Click(System::Object^ sender, System::EventArgs^ e)
 }
 // General Modifier NumbericUpDown
 private: System::Void NumericUpDown1_ValueChanged(System::Object^ sender, System::EventArgs^ e) {
-	if (warOptionsCheck->Checked) {
-		listViewMusic->SelectedItems[0]->SubItems[1]->Text = System::Convert::ToString(0);
-	}
-	else {
-		listViewMusic->SelectedItems[0]->SubItems[3]->Text = System::Convert::ToString(0);
-		listViewMusic->SelectedItems[0]->SubItems[4]->Text = System::Convert::ToString(0);
-		listViewMusic->SelectedItems[0]->SubItems[1]->Text = System::Convert::ToString(generalModifierUpDown->Value);
+	for (int i = 0; i < listViewMusic->SelectedItems->Count; i++) {
+		if (warOptionsCheck->Checked) {
+			listViewMusic->SelectedItems[i]->SubItems[1]->Text = System::Convert::ToString(0);
+		}
+		else {
+			listViewMusic->SelectedItems[i]->SubItems[3]->Text = System::Convert::ToString(0);
+			listViewMusic->SelectedItems[i]->SubItems[4]->Text = System::Convert::ToString(0);
+			listViewMusic->SelectedItems[i]->SubItems[1]->Text = System::Convert::ToString(generalModifierUpDown->Value);
+		}
 	}
 }
 // Peace Modifier NumbericUpDown
 private: System::Void NumericUpDown2_ValueChanged(System::Object^ sender, System::EventArgs^ e) {
-	if (warOptionsCheck->Checked) {
-		listViewMusic->SelectedItems[0]->SubItems[1]->Text = System::Convert::ToString(0);
-		listViewMusic->SelectedItems[0]->SubItems[3]->Text = System::Convert::ToString(peaceModifierUpDown->Value);
-	}
-	else {
-		listViewMusic->SelectedItems[0]->SubItems[3]->Text = System::Convert::ToString(0);
+	for (int i = 0; i < listViewMusic->SelectedItems->Count; i++) {
+		if (warOptionsCheck->Checked) {
+			listViewMusic->SelectedItems[i]->SubItems[1]->Text = System::Convert::ToString(0);
+			listViewMusic->SelectedItems[i]->SubItems[3]->Text = System::Convert::ToString(peaceModifierUpDown->Value);
+		}
+		else {
+			listViewMusic->SelectedItems[i]->SubItems[3]->Text = System::Convert::ToString(0);
+		}
 	}
 }
 // War Modifier NumbericUpDown
 private: System::Void NumericUpDown3_ValueChanged(System::Object^ sender, System::EventArgs^ e) {
-	if (warOptionsCheck->Checked) {
-		listViewMusic->SelectedItems[0]->SubItems[1]->Text = System::Convert::ToString(0);
-		listViewMusic->SelectedItems[0]->SubItems[4]->Text = System::Convert::ToString(warModifierUpDown->Value);
-	}
-	else {
-		listViewMusic->SelectedItems[0]->SubItems[4]->Text = System::Convert::ToString(0);
+	for (int i = 0; i < listViewMusic->SelectedItems->Count; i++) {
+		if (warOptionsCheck->Checked) {
+			listViewMusic->SelectedItems[i]->SubItems[1]->Text = System::Convert::ToString(0);
+			listViewMusic->SelectedItems[i]->SubItems[4]->Text = System::Convert::ToString(warModifierUpDown->Value);
+		}
+		else {
+			listViewMusic->SelectedItems[i]->SubItems[4]->Text = System::Convert::ToString(0);
+		}
 	}
 }
 // Input Mod Name
@@ -776,10 +789,13 @@ private: System::Void ListViewMusic_DragDrop(System::Object^ sender, System::Win
 		}
 	}
 }
-// Delete selected entry in list view
+// Delete selected entries in list view
 private: System::Void ListViewMusic_KeyDown(System::Object^ sender, System::Windows::Forms::KeyEventArgs^ e) {
 	if (listViewMusic->SelectedItems->Count > 0 && e->KeyCode == Keys::Delete) {
-		listViewMusic->Items->RemoveAt(listViewMusic->SelectedIndices[0]);
+		int totalItems = listViewMusic->SelectedItems->Count;
+		for (int i = 0; i < totalItems; i++) {
+			listViewMusic->Items->RemoveAt(listViewMusic->SelectedIndices[0]);
+		}
 	}
 }
 // Mod Output Location Label
