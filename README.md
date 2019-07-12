@@ -6,4 +6,5 @@ Then, select each track and configure the playrate factor, including an option f
 Name the mod and playlist, and select the output folder. Then hit the create button to make the mod.
 
 Example screenshot:
+
 ![screenshot](https://github.com/GH-Edifire/EU4-Music-Mod-Generator/blob/master/screenshot.png)
