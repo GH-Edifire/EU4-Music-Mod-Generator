@@ -681,13 +681,13 @@ private: System::Void Button2_Click(System::Object^ sender, System::EventArgs^ e
 
 		StreamWriter^ sw = File::CreateText(modDirectory + descriptor);
 		sw->WriteLine("name=\""+inputModName->Text+"\"");
-		sw->WriteLine("archive=mod/\""+inputPlaylistName->Text+".zip\"");
+		sw->WriteLine("archive=\"mod/"+inputPlaylistName->Text+".zip\"");
 		sw->WriteLine("tags={");
 		sw->WriteLine("\t\"Sound\"");
 		sw->WriteLine("\t\"Music\"");
 		sw->WriteLine("}");
 		sw->WriteLine("picture=\"none.jpg\"");
-		sw->WriteLine("supported_version="+inputGameVersion->Text);
+		sw->WriteLine("supported_version=\""+inputGameVersion->Text+"\"");
 		sw->Close();
 		File::Copy(modDirectory + descriptor, outputTextBox->Text+modName+".mod",true);
 
