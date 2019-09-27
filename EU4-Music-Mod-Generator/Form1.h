@@ -503,7 +503,7 @@ private: System::Void Form1_Load(System::Object^ sender, System::EventArgs^ e) {
 	// Default Options
 	inputModName->Text = "Custom Music Mod";
 	inputPlaylistName->Text = "CUST";
-	inputGameVersion->Text = "1.28.*.*";
+	inputGameVersion->Text = "1.29.*.*";
 }
 // Music Files Label
 private: System::Void Label1_Click(System::Object^ sender, System::EventArgs^ e) {
@@ -681,7 +681,7 @@ private: System::Void Button2_Click(System::Object^ sender, System::EventArgs^ e
 
 		StreamWriter^ sw = File::CreateText(modDirectory + descriptor);
 		sw->WriteLine("name=\""+inputModName->Text+"\"");
-		sw->WriteLine("archive=\"mod/"+inputPlaylistName->Text+".zip\"");
+		sw->WriteLine("archive=\"mod/"+ inputModName->Text+".zip\"");
 		sw->WriteLine("tags={");
 		sw->WriteLine("\t\"Sound\"");
 		sw->WriteLine("\t\"Music\"");
